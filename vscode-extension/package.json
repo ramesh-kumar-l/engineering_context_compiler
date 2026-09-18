@@ -6,10 +6,18 @@
   "private": true,
   "type": "module",
   "publisher": "ecc-project",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ramesh-kumar-l/Engineering-Context-Compiler.git",
+    "directory": "vscode-extension"
+  },
+  "icon": "images/icon.png",
   "engines": {
     "vscode": "^1.85.0"
   },
-  "categories": ["Other"],
+  "categories": [
+    "Other"
+  ],
   "main": "./dist/extension.js",
   "contributes": {
     "commands": [
@@ -53,13 +61,15 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "package": "vsce package"
   },
   "devDependencies": {
     "@types/node": "^22.10.5",
     "@types/vscode": "^1.85.0",
     "@typescript-eslint/eslint-plugin": "^8.19.1",
     "@typescript-eslint/parser": "^8.19.1",
+    "@vscode/vsce": "^4.0.0",
     "esbuild": "^0.28.2",
     "eslint": "^9.18.0",
     "typescript": "^5.7.3",

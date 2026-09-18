@@ -78,11 +78,28 @@ for why each piece is built the way it is.
 ## Golden examples
 
 Two end-to-end walkthroughs with real captured output, real token counts, and reproduction
-steps:
+steps. Example 1 shows the sharpest contrast: at a realistic tight budget, a naive keyword-match
+agent gets a fraction of the relevant evidence; ECC gets all of it, in fewer tokens.
+
+| Condition | Budget | Recall | Provenance | Tokens |
+|---|---|---|---|---|
+| Naive keyword match | 150 (tight) | 33.3% (misses the test file *and* the gateway) | 0% | 236 |
+| Agent + ECC | 150 (tight) | 100% | 100% | 149 |
+
+Handed only the compiled package, an AI agent correctly diagnosed the root cause without
+reading anything else in the repository:
+
+> `chargeCard()` races `callCardNetwork()` against a hard-coded `GATEWAY_TIMEOUT_MS` (currently
+> 200ms — see the resolved symbol in `paymentService.ts`, primary evidence). The git history
+> shows this was intentionally cut down from 5000ms "to speed up checkout under load."
 
 - [`docs/examples/golden-example-01-debugging/`](docs/examples/golden-example-01-debugging/) —
   investigating an intermittent failure: what a naive agent would load vs. what ECC selects
-  and excludes, and why.
+  and excludes, and why. See
+  [§9](docs/examples/golden-example-01-debugging/README.md#9-token-comparison) for the full
+  comparison and
+  [§10](docs/examples/golden-example-01-debugging/README.md#10-agent-interaction) for the full
+  diagnosis transcript.
 - [`docs/examples/golden-example-02-refactoring/`](docs/examples/golden-example-02-refactoring/) —
   scoping a refactor: affected components, historical decisions, risk-scaled verification.
 
@@ -226,12 +243,17 @@ cherry-picked one.
 
 ## Testing
 
+Combined: 202 tests passing across 46 files.
+
 ```bash
 npm run typecheck   # tsc --noEmit
 npm run lint        # eslint
 npm test            # vitest — 191/191 passing, 43 test files
 npm run build       # tsc -p tsconfig.build.json → dist/
 npm audit           # 0 vulnerabilities
+
+# vscode-extension/ is a separate package with its own suite:
+cd vscode-extension && npm test   # vitest — 11/11 passing, 3 test files
 ```
 
 ## Evaluation

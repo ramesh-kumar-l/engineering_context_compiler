@@ -1,4 +1,4 @@
-# 02 — Architecture (Target — NOT YET IMPLEMENTED)
+# 02 — Architecture
 
 Status: **design target**, fully implemented through Phase 16 — see [[implementation-status]]
 for what actually exists (Phase 1: core types/schema; Phase 2: repository analysis; Phase 3:
