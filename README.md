@@ -3,7 +3,7 @@
 **The context and evidence layer for AI-native software engineering.** ECC turns a messy
 engineering task ("investigate an intermittent timeout in the payment service") into the
 smallest, highest-value, evidence-backed context package an AI coding agent needs to act on
-it — ranked, trust-labeled, token-budgeted, and honest about what it doesn't know.
+it : ranked, trust-labeled, token-budgeted, and honest about what it doesn't know.
 
 [![CI](https://github.com/ramesh-kumar-l/Engineering-Context-Compiler/actions/workflows/ci.yml/badge.svg)](https://github.com/ramesh-kumar-l/Engineering-Context-Compiler/actions/workflows/ci.yml)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
