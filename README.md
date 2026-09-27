@@ -10,6 +10,13 @@ it — ranked, trust-labeled, token-budgeted, and honest about what it doesn't k
 ![Node](https://img.shields.io/badge/node-%3E%3D20-brightgreen)
 ![Status](https://img.shields.io/badge/phases-16%2F16%20complete-success)
 
+**Measured result:** **~57% fewer context tokens (3,319 → 1,439) at higher evidence recall
+(50% → 100%)** across 3 tasks dogfooded on ECC's own codebase — from a deterministic, local-first
+layer that never calls an LLM. The baseline is a keyword-grep *heuristic, not a live LLM*, and
+whether the token saving improves real task success is measured separately in EEP (first pilot:
+honestly inconclusive) — not claimed here. Scope, method, and limits:
+[Performance / token economics](#performance--token-economics).
+
 ## Why this exists
 
 Modern coding agents are good at reading code but bad at knowing *what matters*. Point one at
@@ -163,6 +170,41 @@ Output (abridged — captured from this exact command):
 
 Every field is explained in the
 [Newbie Quick Starter Guide](docs/NewbieQuickStarterGuide.md#understanding-the-output).
+
+### Install as a package
+
+ECC is packaged for npm (package name `engineering-context-compiler`; CLI binaries `ecc`,
+`ecc-mcp`, `ecc-pr-context`). It is **not yet published to the public registry** — the tarball
+builds clean and installs locally today; the public `npm publish` is a maintainer step (see
+[`PACKAGING.md`](PACKAGING.md)). Once published, the three-command quickstart is:
+
+```bash
+npm install -g engineering-context-compiler
+ecc context "explain the memory retriever module" --path . --budget 800
+ecc --help
+```
+
+Or run it without a global install via `npx engineering-context-compiler ...`. To verify the
+package locally before any publish, `npm pack` then install the resulting tarball — the exact
+steps are in [`PACKAGING.md`](PACKAGING.md).
+
+### Use as an MCP server
+
+ECC ships a stdio Model Context Protocol server (`ecc-mcp`) exposing the same deterministic
+compile pipeline as a tool. After a global install (or pointing `command` at the built
+`dist/mcp/index.js`), add it to an MCP client — e.g. Claude Desktop's `claude_desktop_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "ecc": {
+      "command": "ecc-mcp"
+    }
+  }
+}
+```
+
+The server makes no network calls and reads only the repository path you pass to the tool.
 
 ## Configuration
 

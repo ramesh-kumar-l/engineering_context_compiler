@@ -1,17 +1,53 @@
 {
-  "name": "ecc",
+  "name": "engineering-context-compiler",
   "version": "0.1.0",
-  "private": true,
-  "description": "Engineering Context Compiler - the context and evidence layer for AI-native software engineering",
+  "description": "Engineering Context Compiler - the deterministic context and evidence layer for AI-native software engineering",
   "type": "module",
+  "license": "Apache-2.0",
+  "author": "ramesh-kumar-l",
+  "homepage": "https://github.com/ramesh-kumar-l/Engineering-Context-Compiler#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ramesh-kumar-l/Engineering-Context-Compiler.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ramesh-kumar-l/Engineering-Context-Compiler/issues"
+  },
+  "keywords": [
+    "ai",
+    "coding-agent",
+    "context",
+    "retrieval",
+    "mcp",
+    "llm",
+    "code-context",
+    "provenance",
+    "deterministic"
+  ],
   "engines": {
     "node": ">=20"
   },
-  "main": "./src/index.ts",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
   "bin": {
     "ecc": "./dist/cli/index.js",
     "ecc-mcp": "./dist/mcp/index.js",
     "ecc-pr-context": "./dist/github/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
   },
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
@@ -19,11 +55,11 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "lint": "eslint .",
-    "benchmark": "node dist/benchmark/runBenchmark.js"
+    "benchmark": "node dist/benchmark/runBenchmark.js",
+    "prepublishOnly": "npm run build && npm test"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.30.0",
-    "typescript": "^5.7.3",
     "zod": "^3.24.1"
   },
   "devDependencies": {
@@ -31,6 +67,7 @@
     "@typescript-eslint/eslint-plugin": "^8.19.1",
     "@typescript-eslint/parser": "^8.19.1",
     "eslint": "^9.18.0",
+    "typescript": "^5.7.3",
     "vitest": "^5.0.0"
   }
 }
