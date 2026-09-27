@@ -30,20 +30,24 @@ but are not exhaustive coverage.
 
 ## Current baseline
 
-**Measured 2026-09-12** via `npm run benchmark` against this repository (3 tasks; see
-[[implementation-status]] Phase 11 section for the exact tasks). Average across all three:
+**Re-run 2026-09-27** (originally measured 2026-09-12) via `npm run benchmark` against this
+repository (3 tasks; see [[implementation-status]] Phase 11 section for the exact tasks). The
+benchmark dogfoods this repo's own codebase, so the absolute figures drift as the code grows —
+the stable result is ECC reaching 100% recall on fewer tokens than the baseline. Average across
+all three:
 
 | Metric | Agent alone | Agent + ECC |
 |---|---|---|
-| Evidence recall | 67% | 100% |
-| Irrelevant evidence rate | 72% | 87% |
+| Evidence recall | 50% | 100% |
+| Irrelevant evidence rate | 89% | 91% |
 | Provenance completeness | 0% | 100% |
-| Estimated tokens | 2833 | 1053 |
+| Estimated tokens | 3319 | 1439 |
 
-ECC recalls all ground-truth-relevant files every time (baseline misses one file in two of
-three tasks); every ECC item carries provenance/trust by construction (Phase 7), the baseline
-has none; ECC's compression uses roughly a third of the tokens the baseline spends reading
-whole files. The one metric where ECC measures worse — irrelevant evidence rate — is honest,
+ECC recalls all ground-truth-relevant files every time (this run the baseline misses relevant
+evidence in two of three tasks — 0% recall on `trust-level-extension`, 50% on
+`token-budget-fix`); every ECC item carries provenance/trust by construction (Phase 7), the
+baseline has none; ECC's compression uses under half the tokens (1439 vs. 3319) the baseline
+spends reading whole files. The one metric where ECC measures worse — irrelevant evidence rate — is honest,
 not a flaw hidden by cherry-picked tasks: each task's ground truth is a narrow 2-path list,
 and ECC's supplementary git/test evidence (which the baseline never retrieves at all) counts
 as "irrelevant" under this metric's strict definition even though it's legitimate supporting

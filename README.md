@@ -226,20 +226,30 @@ project-memory-bank/  # phase-gated development history, decisions, current stat
 
 ## Performance / token economics
 
-Measured `npm run benchmark` run against this repository's own codebase (3 tasks, naive
-keyword-grep baseline vs. the full ECC pipeline — see
+**Headline: ~57% fewer context tokens (3,319 → 1,439) while lifting evidence recall from 50%
+to 100%, across 3 tasks dogfooded on ECC's own codebase.** The comparison is against a naive
+keyword-grep baseline — a *simulated heuristic, not a live LLM* (see [Limitations](#limitations)).
+Whether that token saving turns into better *task success* with a real model is a separate
+question, measured live in the companion
+[Engineering Evaluation Platform (EEP)](https://github.com/ramesh-kumar-l/engineering_evaluation_platform)
+(first pilot: honestly reported as statistically inconclusive at n = 3) — it is not claimed here.
+
+Measured via `npm run benchmark` against this repository's own codebase (3 tasks, naive
+keyword-grep baseline vs. the full ECC pipeline; re-run 2026-09-27 — see
 [`project-memory-bank/07-evaluation.md`](project-memory-bank/07-evaluation.md) for the exact
-tasks and metric definitions):
+tasks and metric definitions). Because the benchmark dogfoods ECC's own growing repo, the
+absolute figures drift as the codebase changes; the stable result is that ECC reaches 100%
+recall on fewer tokens than the baseline every run.
 
 | Metric | Agent alone | Agent + ECC |
 |---|---|---|
-| Evidence recall | 67% | 100% |
+| Evidence recall | 50% | 100% |
 | Provenance completeness | 0% | 100% |
-| Estimated tokens | 2833 | 1053 |
+| Estimated tokens | 3319 | 1439 |
 
-The irrelevant-evidence-rate metric is reported as-is even though it favors the baseline on
-this narrow ground truth — see the evaluation doc for why that's an honest result, not a
-cherry-picked one.
+The irrelevant-evidence-rate metric (89% baseline vs. 91% ECC on this run) is reported as-is
+even though it favors the baseline on this narrow ground truth — see the evaluation doc for why
+that's an honest result, not a cherry-picked one.
 
 ## Testing
 
